@@ -1,0 +1,37 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Essay Search{% endblock %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+{% endblock %}
+
+{% block content %}
+	{{ form.csrf_token }}
+	{{ wtf.quick_form(form, id="query") }}
+
+	<div class="output">
+		{% if res %}
+			<b>Results</b>
+			<div class="container">
+				<div class="row">
+					<div class="panel panel-primary">
+						<div class="panel-body">
+							<div class="tab-content">
+								{% for r in res %}
+									{% if r[2] != 0 %}
+										<a href="{{ url_for('static', filename='gutenberg/' + r[0]) }}">{{ r[0] }}</a>
+										<div>{{ r[1] }}...</div></br>
+									{% endif %}
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+	</div>
+
+{% endblock %}
